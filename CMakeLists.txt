@@ -8,3 +8,6 @@ target_link_libraries(binarize ${OpenCV_LIBS})
 
 add_executable(image_arithmetic src/image_arithmetic.cpp)
 target_link_libraries(image_arithmetic ${OpenCV_LIBS})
+
+add_executable(filter src/filter.cpp)
+target_link_libraries(filter ${OpenCV_LIBS})
