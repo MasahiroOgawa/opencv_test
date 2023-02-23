@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
 
   // constants
   const bool read_recursive{true};
-  const double thre{10};
+  const double thre{20};
   const double inimg_reduce_britness{0.2}; // should be (0,1).
   const double img_resize_ratio{0.2};      //
 
