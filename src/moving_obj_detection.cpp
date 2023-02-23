@@ -5,6 +5,20 @@
 using namespace std;
 using namespace cv;
 
+void drawFlow(const cv::Mat &flow, const int rows, const int cols,
+              cv::Mat &flow_img) {
+  flow_img = cv::Mat(rows, cols, CV_8UC3, Scalar(0, 0, 0));
+  for (int i = 0; i < flow_img.rows; i += 5) {
+    for (int j = 0; j < flow_img.cols; j += 5) {
+      Point2f flow_at_point = flow.at<Point2f>(i, j);
+      arrowedLine(
+          flow_img, Point(j, i),
+          Point(cvRound(j + flow_at_point.x), cvRound(i + flow_at_point.y)),
+          Scalar(0, 255, 0), 1, 8, 0, 0.1);
+    }
+  }
+}
+
 int main(int argc, char **argv) {
   if (argc < 2) {
     cerr << "Usage: " << argv[0] << " input_videoname" << endl;
@@ -43,6 +57,7 @@ int main(int argc, char **argv) {
     }
 
     // Threshold the magnitude to get the moving object mask
+    // threshold 25.0 will be ignored when I use THRESH_OTSU.
     threshold(magnitude, mask, 25.0, 255.0, THRESH_BINARY + THRESH_OTSU);
     mask.convertTo(mask, CV_8UC1);
 
@@ -55,9 +70,14 @@ int main(int argc, char **argv) {
     // Update the foreground mask by ORing it with the current mask
     bitwise_or(foreground, mask, foreground);
 
+    // create optical flow image
+    cv::Mat flow_img;
+    drawFlow(motionVectors, foreground.rows, foreground.cols, flow_img);
+
     // Show the original frame and the moving object mask
     imshow("Original Frame", frame);
     imshow("Moving Object Mask", foreground);
+    imshow("optical flow", flow_img);
 
     // Update the background image by blending it with the current frame
     addWeighted(background, 0.95, frame, 0.05, 0.0, background);
