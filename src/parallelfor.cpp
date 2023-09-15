@@ -43,16 +43,18 @@ int main(){
         std::cout << "Failed to open image file." << std::endl;
         return -1;
     }
-    // cv::Mat3b dst_img(src_img.size(), src_img.type());
+    cv::Mat dst_img(src_img.size(), src_img.type());
 
-    // parallel_for_idx(0, src_img.rows, [&](int y){
-    //     for(int x=0; x<src_img.cols; ++x){
-    //         dst_img(y,x) = src_img(y,x) * 0.5;
-    //     }
-    // });
+    parallel_for_idx(0, src_img.rows, [&](int y){
+        for(int x=0; x<src_img.cols; ++x){
+          for(int c=0; c<src_img.channels(); ++c){
+            dst_img.at<cv::Vec3b>(y,x)[c] = src_img.at<cv::Vec3b>(y,x)[c] * 0.5;
+          }
+        }
+    });
 
     cv::imshow("src", src_img);
-    // cv::imshow("dst", dst_img);
+    cv::imshow("dst", dst_img);
     cv::waitKey(0);
 
 }
