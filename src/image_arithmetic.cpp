@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  // read images
+  // read an image
   std::string fname = "../data/lena.jpg";
 
   // proces images

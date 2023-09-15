@@ -20,3 +20,9 @@ target_link_libraries(meanstddev ${OpenCV_LIBS})
 
 add_executable(moving_obj_detection src/moving_obj_detection.cpp)
 target_link_libraries(moving_obj_detection ${OpenCV_LIBS})
+
+add_executable(parallelfor src/parallelfor.cpp)
+target_link_libraries(parallelfor ${OpenCV_LIBS})
+
+add_executable(display_image src/display_image.cpp)
+target_link_libraries(display_image ${OpenCV_LIBS})
