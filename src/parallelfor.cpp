@@ -9,6 +9,7 @@
 /// @param st start indexstd::filesystem::current_path()
 /// @param ed end index
 /// @param func function to be executed in parallel
+/// @ref https://qiita.com/luftfararen/items/ceaa97241e9c80a73246
 template<class FUNC>
 void parallel_for_idx(int st, int ed, FUNC func)
 {
@@ -23,18 +24,19 @@ void parallel_for_idx(int st, int ed, FUNC func)
 }
 
 int main(){
-    // // for vector calculation
-    // std::vector<int> square(101);
+    // for vector calculation
+    std::vector<int> square(101);
 
-    // parallel_for_idx(0, 101, [&square](int idx){
-    // });
+    parallel_for_idx(0, 101, [&](int idx){
+        square[idx] = idx * idx;
+    });
 
-    // for(auto i : square){
-    //     std::cout << i << std::endl;
-    // }
+    for(auto i : square){
+        std::cout << i << std::endl;
+    }
 
     //for image calculation
-    // TODO: debug. currently jpeg file (including lena.jpg) doesn't works.
+    // currently jpeg file (including lena.jpg) doesn't works.
     cv::Mat src_img = cv::imread("../data/lena.png");
     if(src_img.empty()){
         std::cout << "current directory =" << std::filesystem::current_path() << std::endl;
